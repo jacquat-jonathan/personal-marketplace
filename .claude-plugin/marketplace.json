@@ -5,9 +5,9 @@
     },
     "plugins": [
         {
-            "name": "greeting",
-            "source": "./plugins/greeting",
-            "description": "A simple greeting plugin to learn the basics"
+            "name": "marcalex",
+            "source": "./plugins/marcalex",
+            "description": "Adds a /marcalex skill to find who's the best"
         }
     ]
 }
