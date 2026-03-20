@@ -1,0 +1,13 @@
+{
+    "name": "my-plugins",
+    "owner": {
+        "name": "Jacquat Jonathan"
+    },
+    "plugins": [
+        {
+            "name": "greeting",
+            "source": "./plugins/greeting",
+            "description": "A simple greeting plugin to learn the basics"
+        }
+    ]
+}
