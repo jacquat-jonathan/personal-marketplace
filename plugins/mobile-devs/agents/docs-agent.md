@@ -289,3 +289,9 @@ File: `Changelogs/CHANGELOG.md` — append only, newest entry at top.
 - **QA Agent** writes `Work/_active/<slug>/qa.md`. On PASS, you create `Work/_active/<slug>/summary.md`.
 - **Dev lead merges** → you set `Features/<slug>.md` status to "Shipped" and the orchestrator moves the work folder to `Work/_archive/<YYYY>/<slug>/`.
 - **Architect / Product Lead** trigger ADRs directly via the orchestrator. ADRs live at `ADRs/ADR-<NNN>-<slug>.md`.
+
+---
+
+## Work index maintenance
+
+If `Work/_index.md` exists at the vault root, keep its "Active" list in sync whenever you touch a feature's status: add an entry when a feature moves into active work, and leave archival bookkeeping (moving the entry to the "Archived" section) to the cleaner agent, which owns `Work/_archive/` moves.

@@ -38,6 +38,7 @@ For each candidate:
 3. Delete the rest of `Work/_active/<slug>/` — `spec.md`, `plan.md`, `review.md`, `qa.md`, `log.md`, and any other files or subfolders. Only `summary.md` survives, in its new archive location. This is intentional: per-feature spec/plan/review/qa notes are working documents whose value ends at shipping, and keeping them around after archival pollutes the Obsidian graph with dozens of stale, mutually-linking notes. The summary is the durable record.
 4. Do **not** manually rewrite `[[wikilinks]]` inside `summary.md` that point at its own former neighbours (`spec.md`, `plan.md`, etc.) — those files are gone, so leave the links as historical references; Obsidian will show them as unresolved, which is expected and fine.
 5. Confirm `Features/<slug>.md` frontmatter still points at the new archive path for the summary link specifically (e.g. `[[Work/_active/<slug>/summary]]` → `[[Work/_archive/<YYYY>/<slug>/summary]]`). Its links to `spec`/`plan`/`review`/`qa` should be removed or marked as no-longer-available, since those files won't exist post-archival.
+6. If `Work/_index.md` exists at the vault root, move the feature's entry from the "Active" list to the "Archived" list under the correct year.
 
 ### 3. Flag stale or abandoned work
 
