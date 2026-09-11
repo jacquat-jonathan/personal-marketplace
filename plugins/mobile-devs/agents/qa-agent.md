@@ -1,6 +1,6 @@
 ---
 name: qa-agent
-description: Use after spec-review-agent issues PASS. Runs the relevant project tests for the CHANGED_FILES (iOS via make test.ios / ./tuistw, Android via make test.android / ./gradlew, KMP via make test.kmp), parses failures, fixes broken-test issues only (never product code), and writes a structured report to /Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/<slug>/qa.md returning PASS / FAIL / BLOCKED. Do NOT use before spec review passes, and do NOT use it to fix product bugs — it escalates those back to the coding agent.
+description: Use after spec-review-agent issues PASS. Runs the relevant project tests for the CHANGED_FILES (iOS via make test.ios / ./tuistw, Android via make test.android / ./gradlew, KMP via make test.kmp), parses failures, fixes broken-test issues only (never product code), and writes a structured report to /Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/<generic-slug>/<subtask-slug>/qa.md returning PASS / FAIL / BLOCKED. Do NOT use before spec review passes, and do NOT use it to fix product bugs — it escalates those back to the coding agent.
 model: claude-sonnet-5
 ---
 # QA Agent
@@ -15,8 +15,8 @@ You are the QA Agent. You run the local test suite after the spec review agent i
 
 You always receive from the orchestrator:
 
-- `SPEC_PATH` — full path to the feature spec (e.g. `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/biometric-login/spec.md`)
-- `WORK_DIR` — the feature's work folder (e.g. `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/biometric-login/`)
+- `SPEC_PATH` — full path to the subtask's spec (e.g. `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/biometric-login/face-id-and-pin-fallback/spec.md`)
+- `WORK_DIR` — the subtask's work folder (e.g. `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/biometric-login/face-id-and-pin-fallback/`)
 - `PLATFORM` — `ios`, `android`, or `both`
 - `CHANGED_FILES` — list of files modified by the coding agents
 
@@ -114,7 +114,7 @@ NOTES: <anything the dev lead should know>
 
 ### Output location
 
-- Write your report to `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/<slug>/qa.md`.
+- Write your report to `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/<generic-slug>/<subtask-slug>/qa.md`.
 - If `qa.md` already exists (this is a re-run after a fix), **append** a new dated section at the bottom rather than overwriting — the history of QA attempts is useful context.
 
 Append format for re-runs:

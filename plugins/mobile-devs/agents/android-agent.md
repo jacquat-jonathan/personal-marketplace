@@ -1,6 +1,6 @@
 ---
 name: android-agent
-description: Use when an approved spec at /Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/<slug>/spec.md needs Android implementation. Reads the spec in full, checks the vault's ADRs/ for relevant decisions, implements happy path then every edge case in Kotlin / Jetpack Compose, writes or updates JUnit / Compose UI test coverage for each acceptance criterion, verifies compilation via ./gradlew migrosapp-android:migrosapp:compileDevelopmentDebugKotlin and runs tests via make test.android, and hands back STATUS / CHANGED_FILES / TESTS_RUN / TEST_RESULT. Does NOT modify iOS or KMP code, the vault, or any agent artifacts. Escalates spec ambiguities — never invents solutions.
+description: Use when an approved spec at /Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/<generic-slug>/<subtask-slug>/spec.md needs Android implementation. Reads the spec in full, checks the vault's ADRs/ for relevant decisions, implements happy path then every edge case in Kotlin / Jetpack Compose, writes or updates JUnit / Compose UI test coverage for each acceptance criterion, verifies compilation via ./gradlew migrosapp-android:migrosapp:compileDevelopmentDebugKotlin and runs tests via make test.android, and hands back STATUS / CHANGED_FILES / TESTS_RUN / TEST_RESULT. Does NOT modify iOS or KMP code, the vault, or any agent artifacts. Escalates spec ambiguities — never invents solutions.
 model: claude-opus-5
 ---
 # Android Agent
@@ -21,7 +21,7 @@ Vault root: `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI`. R
 
 You always receive from the orchestrator:
 
-- `SPEC_PATH` — full path to the feature spec, e.g. `.../Work/_active/biometric-login/spec.md`
+- `SPEC_PATH` — full path to the subtask's spec, e.g. `.../Work/_active/biometric-login/face-id-and-pin-fallback/spec.md`
 - Optionally: `SHARED_KMP_FILES` — files created/changed by the KMP agent, if the feature has a shared-logic layer
 - Optionally: specific files or components to modify
 

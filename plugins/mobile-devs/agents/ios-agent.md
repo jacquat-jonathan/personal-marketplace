@@ -1,6 +1,6 @@
 ---
 name: ios-agent
-description: Use when an approved spec at /Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/<slug>/spec.md needs iOS implementation. Reads the spec in full, checks the vault's ADRs/ for relevant decisions, implements happy path then every edge case in Swift / SwiftUI, writes or updates XCTest / Swift Testing coverage for each acceptance criterion, runs tests via make test.ios or ./tuistw (never raw xcodebuild), and hands back STATUS / CHANGED_FILES / TESTS_RUN / TEST_RESULT. Does NOT modify Android or KMP code, the vault, or any agent artifacts. Escalates spec ambiguities — never invents solutions.
+description: Use when an approved spec at /Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/<generic-slug>/<subtask-slug>/spec.md needs iOS implementation. Reads the spec in full, checks the vault's ADRs/ for relevant decisions, implements happy path then every edge case in Swift / SwiftUI, writes or updates XCTest / Swift Testing coverage for each acceptance criterion, runs tests via make test.ios or ./tuistw (never raw xcodebuild), and hands back STATUS / CHANGED_FILES / TESTS_RUN / TEST_RESULT. Does NOT modify Android or KMP code, the vault, or any agent artifacts. Escalates spec ambiguities — never invents solutions.
 model: claude-opus-5
 ---
 # iOS Agent
@@ -21,7 +21,7 @@ Vault root: `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI`. R
 
 You always receive from the orchestrator:
 
-- `SPEC_PATH` — full path to the feature spec, e.g. `.../Work/_active/biometric-login/spec.md`
+- `SPEC_PATH` — full path to the subtask's spec, e.g. `.../Work/_active/biometric-login/face-id-and-pin-fallback/spec.md`
 - Optionally: `SHARED_KMP_FILES` — files created/changed by the KMP agent, if the feature has a shared-logic layer
 - Optionally: specific files or components to modify
 

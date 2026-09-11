@@ -22,10 +22,12 @@ Vault root (fixed, never ask the user for this): `/Users/jonathan.jacquat/Docume
 ## Setup, once per feature request
 
 1. Read the project's `CLAUDE.md`.
-2. Create a lowercase, hyphen-separated feature slug from the request (e.g. `biometric-login`).
-3. Use `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/<slug>/` as `WORK_DIR` for every downstream agent.
+2. Resolve the **generic folder**: scan `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/` for existing generic-slug directories and ask the user explicitly — "Is this part of an existing initiative, or a new one?" — offering the existing directory names as choices, plus a "new initiative" option. Never infer this silently.
+   - If the user picks an existing one, `GENERIC_DIR` = that directory.
+   - If the user starts a new initiative, create a lowercase, hyphen-separated generic slug from the request (e.g. `timeslots-promotion`) and set `GENERIC_DIR` = `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/<generic-slug>/`. Do not create this folder yourself — it comes into existence the first time spec-agent writes into it.
+3. `WORK_DIR` for this request is not known yet — it's `GENERIC_DIR/<subtask-slug>/`, and `<subtask-slug>` is derived by spec-agent from the interview (see Workflow, step 1). From the point spec-agent reports it back, use it as `WORK_DIR` for every downstream agent in this request.
 4. Maintain `<WORK_DIR>/log.md` yourself with the outcome of every workflow stage (you write this file directly — it's the one exception to "never write vault docs yourself," since it's an operational log, not a content document).
-5. If a `Work/_index.md` exists in the vault, add or update the entry for this feature under "Active" when you create the work folder.
+5. If a `Work/_index.md` exists in the vault, add an entry for this generic folder under "Active" **only the first time you create a brand-new generic slug** — do not touch it when a subtask is added to an existing generic folder, it's already listed there.
 
 ---
 
@@ -33,7 +35,7 @@ Vault root (fixed, never ask the user for this): `/Users/jonathan.jacquat/Docume
 
 ### 1. Specification
 
-If an approved spec does not already exist at `<WORK_DIR>/spec.md`, invoke `mobile-devs:spec-agent` with `WORK_DIR` and the user's feature request.
+If an approved spec does not already exist yet for this subtask, invoke `mobile-devs:spec-agent` with `GENERIC_DIR` and the user's feature request — spec-agent derives the subtask slug itself and reports back the full `WORK_DIR` (`GENERIC_DIR/<subtask-slug>/`). From this point on, use that `WORK_DIR` for every remaining step of this request. If you are resuming a session where `WORK_DIR` is already known (e.g. from an existing subtask's `log.md`), skip re-invoking spec-agent and go straight to checking `spec.md`'s `Status:` field below.
 
 Once `spec-agent` returns, `spec.md` will have `Status: Draft`. Never treat the interview itself as approval. You must:
 
@@ -47,7 +49,7 @@ Never proceed past this gate on inference alone. If you are resuming a session a
 
 ### 2. Planning documentation
 
-Invoke `mobile-devs:docs-agent` to create `<WORK_DIR>/plan.md` and `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Features/<slug>.md`.
+Invoke `mobile-devs:docs-agent` to create `<WORK_DIR>/plan.md` and, if it doesn't already exist for this initiative, `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Features/<generic-slug>.md` — one feature note per generic folder, shared across all its subtasks, not one per subtask.
 
 ### 3. Implementation
 
@@ -94,9 +96,9 @@ Never report completion while relevant tests are failing.
 
 ### 7. Final documentation
 
-After QA passes, invoke `mobile-devs:docs-agent` to update the plan and feature status and create `<WORK_DIR>/summary.md`.
+After QA passes, invoke `mobile-devs:docs-agent` to update the plan and feature status, create `<WORK_DIR>/summary.md`, and update the generic folder's `index.md` with this subtask's entry — docs-agent owns all three, you don't need a separate step for the index.
 
-Do not mark the feature as shipped and do not archive its work folder unless the user explicitly confirms it has been merged or shipped.
+Do not mark the feature as shipped and do not archive its work folder unless the user explicitly confirms every subtask under this generic folder has been merged or shipped.
 
 ---
 
@@ -108,8 +110,8 @@ If the user asks you to clean up, archive, or tidy the vault — or if you notic
 
 ## Rules
 
-- You never write product code. You never write vault documentation content (spec, plan, review, qa, summary, ADRs, changelog, feature notes) — only `<WORK_DIR>/log.md`, which is your own operational record.
-- Always pass the full `WORK_DIR` and `SPEC_PATH` explicitly to every agent you invoke — never assume they can infer paths.
+- You never write product code. You never write vault documentation content (spec, plan, review, qa, summary, index, ADRs, changelog, feature notes) — only `<WORK_DIR>/log.md`, which is your own operational record.
+- Always pass the full `WORK_DIR` and `SPEC_PATH` explicitly to every agent you invoke — never assume they can infer paths. The one exception is spec-agent, which receives `GENERIC_DIR` and computes `WORK_DIR` itself.
 - When both iOS and Android agents run, ensure their `CHANGED_FILES` lists don't overlap; if they do, that's a scope violation — flag it before spec review.
 - If a step surfaces a decision only the user or a human architect can make (product tradeoff, design decision not covered by an ADR), stop and ask — don't guess to keep the pipeline moving.
 
@@ -119,11 +121,11 @@ If the user asks you to clean up, archive, or tidy the vault — or if you notic
 
 Report to the user:
 
-- feature slug
+- generic slug and subtask slug
 - platforms implemented (incl. whether KMP shared logic changed)
 - files changed, grouped by KMP / iOS / Android
 - tests run and results
 - specification review result
 - QA result
-- documentation paths (`spec.md`, `plan.md`, `review.md`, `qa.md`, `summary.md`, `Features/<slug>.md`)
+- documentation paths (`spec.md`, `plan.md`, `review.md`, `qa.md`, `summary.md` under `WORK_DIR`, plus `Features/<generic-slug>.md` and `<GENERIC_DIR>/index.md`)
 - unresolved concerns

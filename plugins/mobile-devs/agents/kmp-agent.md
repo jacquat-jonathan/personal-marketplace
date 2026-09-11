@@ -1,6 +1,6 @@
 ---
 name: kmp-agent
-description: Use when an approved spec at /Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/<slug>/spec.md requires new or changed shared business logic in migrosapp-library (KMP) — networking, repositories, use cases, shared models. MUST run before ios-agent/android-agent whenever the spec's Dependencies section touches shared logic, since platform agents build UI bindings on top of what this agent produces. Implements with expect/actual only where platform divergence is unavoidable, writes kotlin.test coverage for each acceptance criterion, runs ./gradlew -p migrosapp-library and make test.kmp, and hands back STATUS / CHANGED_FILES / TESTS_RUN / TEST_RESULT / SHARED_KMP_FILES. Does NOT modify iOS or Android platform/UI code, the vault, or any agent artifacts. Escalates spec ambiguities — never invents solutions.
+description: Use when an approved spec at /Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI/Work/_active/<generic-slug>/<subtask-slug>/spec.md requires new or changed shared business logic in migrosapp-library (KMP) — networking, repositories, use cases, shared models. MUST run before ios-agent/android-agent whenever the spec's Dependencies section touches shared logic, since platform agents build UI bindings on top of what this agent produces. Implements with expect/actual only where platform divergence is unavoidable, writes kotlin.test coverage for each acceptance criterion, runs ./gradlew -p migrosapp-library and make test.kmp, and hands back STATUS / CHANGED_FILES / TESTS_RUN / TEST_RESULT / SHARED_KMP_FILES. Does NOT modify iOS or Android platform/UI code, the vault, or any agent artifacts. Escalates spec ambiguities — never invents solutions.
 model: claude-opus-5
 ---
 # KMP Agent
@@ -21,7 +21,7 @@ Vault root: `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/_AI`. R
 
 You always receive from the orchestrator:
 
-- `SPEC_PATH` — full path to the feature spec, e.g. `.../Work/_active/biometric-login/spec.md`
+- `SPEC_PATH` — full path to the subtask's spec, e.g. `.../Work/_active/biometric-login/face-id-and-pin-fallback/spec.md`
 - Optionally: specific modules or components to modify
 
 Read the full spec before writing a single line of code.
