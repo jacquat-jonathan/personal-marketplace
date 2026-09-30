@@ -14,10 +14,10 @@ The dispatch header, plus `REPOS` and `REVIEW_FAILURES` (or none).
 
 ## Steps
 
-1. Read `<PLUGIN_ROOT>/resources/vault-conventions.md` ("HTML files", "Handback"). Read the spec: `section.py <TASK_DIR>/spec.html goal audience outline sources output`. Exit 3 → BLOCKED naming the missing id.
+1. Read `<PLUGIN_ROOT>/resources/vault-conventions.md` ("Repo preconditions", "HTML files", "Handback") and `<PLUGIN_ROOT>/resources/visual-guide.md`. Apply "Repo preconditions" to every repo in `REPOS` before reading code. Read the spec: `section.py <TASK_DIR>/spec.html goal audience outline sources output`. Exit 3 → BLOCKED naming the missing id.
 2. If `#output` asks for a presentation-style page, read `/Users/jonathan.jacquat/Documents/Obsidian/Migros Online/MO/Skills/feature-deepdive-workflow/SKILL.md` for structure (read-only).
 3. Gather facts the way analyst-agent does: search, then read ≤ 120-line windows, and note each fact's source (`repo/path:line` or `[[Knowledge note]]`).
-4. Copy the `doc.html` template from `<PLUGIN_ROOT>/resources/templates/` to `<TASK_DIR>/deliverables/<slug>.html` and fill `#overview`. For each outline item, add `<section id="<outline id>"><h2>…</h2>…</section>` after `#overview`, in outline order. Write for the audience: define terms on first use, prefer tables and numbered steps to long prose, and cite sources inline as `<code>repo/path:line</code>`.
+4. Copy the `doc.html` template from `<PLUGIN_ROOT>/resources/templates/` to `<TASK_DIR>/deliverables/<slug>.html` and fill `#overview`. For each outline item, add `<section id="<outline id>"><h2>…</h2>…</section>` after `#overview`, in outline order. Write for the audience, visual first: open `#overview` with a `.cards` row and a diagram of the whole subject, give each section a diagram or table wherever it explains a flow, structure or comparison, define terms on first use, prefer tables and numbered steps to long prose, and cite sources inline as `<code>repo/path:line</code>`.
 5. If `#output` asks for a canvas, write `deliverables/<slug>.canvas` in the format described in `analyst-agent` (nodes left to right, 360 px apart).
 6. If `REVIEW_FAILURES` is set, fix only those items.
 

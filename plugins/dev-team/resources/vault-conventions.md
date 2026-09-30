@@ -136,12 +136,27 @@ NOTES: <at most 10 lines>
 
 Workers return DONE or BLOCKED; reviewers and QA return PASS, FAIL or BLOCKED. BLOCKED must name the exact question or missing input the user has to resolve. Agent-specific extra fields go after `NOTES`.
 
+## Repo preconditions
+
+Every agent that reads or changes a repo checks each repo it will touch, before anything else:
+
+1. `git -C <repo> branch --show-current`, `git -C <repo> status --porcelain`, `git -C <repo> fetch -q`, `git -C <repo> rev-list --count @{u}..HEAD` (unpushed commits).
+2. On `main`, clean, nothing unpushed, fetch OK → `git -C <repo> pull -q --ff-only`, then start.
+3. Expected changes: when the dispatch lists `CHANGED_FILES` (review, QA, fix runs), local changes limited to those files and new test files are fine. Skip fetch and pull in that case; pulling over them is unsafe.
+4. Anything else → touch nothing and return BLOCKED with a `REPO_ISSUES:` field, one line per repo: repo, branch, changed-file count (up to 5 names), unpushed commit count, fetch error. A fetch error on an `https://` remote usually means it needs SSH: suggest `git -C <repo> remote set-url origin git@github.com:<org>/<repo>.git`.
+5. `REPO_OVERRIDE: <repo> as-is` in the dispatch → skip steps 2–4 for that repo: work on its current state without fetching, pulling or switching, and name its branch and HEAD commit in `NOTES`.
+
+Never push, switch branches, stash, commit, reset or discard changes.
+
+Skills that dispatch these agents: when a handback has `REPO_ISSUES`, show them and ask with AskUserQuestion: "I'll fix it — retry", "Use the current state as-is", "Stop". Retry → once the user says it's fixed, dispatch again unchanged. As-is → dispatch again with `REPO_OVERRIDE: <repo> as-is` per listed repo. Stop → log it and stop, status unchanged.
+
 ## HTML files
 
 - Start from the template: `cp` it into place, then replace `{{TITLE}}`, `{{TYPE}}` and `{{DATE}}` (YYYY-MM-DD) with Edit.
 - Never change the `<style>` block, never restyle, never remove or rename an element that has an `id`, never add scripts or external resources.
 - A section with nothing yet contains `<p class="empty">Nothing yet.</p>`. Replace that placeholder with content; leave it in sections that have nothing.
-- Allowed markup inside sections: `p`, `ul`/`ol`/`li`, `table`/`tr`/`th`/`td`, `pre`/`code`, `h3`, `strong`, `em`, `a`, `div` with an id. Close every tag you open.
+- Make it visual: follow `<PLUGIN_ROOT>/resources/visual-guide.md` (diagrams, tables, cards, callouts, badges, details).
+- Allowed markup inside sections: `p`, `ul`/`ol`/`li`, `table`/`tr`/`th`/`td`, `pre`/`code`, `h3`, `strong`, `em`, `a`, `div` with an id or a visual-guide class, `figure`/`figcaption`, inline `svg class="diagram"`, `details`/`summary`, `span class="badge …"`. No `style` attributes, scripts or external resources. Close every tag you open.
 - Code references are written as `<code>path/File.kt:42</code>`, with the path relative to the repo root and the repo name first: `<code>checkout/service/src/main/java/…/CheckoutService.java:88</code>`.
 - `review.html` and `qa.html` are append-only. `#verdict` is replaced on every run; each run adds `<article class="run" id="run-YYYYMMDD-HHMM">` as the first child of `#runs`. Older runs are never edited.
 - Read with `python3 <PLUGIN_ROOT>/resources/scripts/section.py <file> <id> [<id>...]`. Open a whole HTML file only right before editing it. If `section.py` exits 3, a needed section is missing: return BLOCKED naming the id instead of guessing.

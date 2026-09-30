@@ -14,6 +14,8 @@ The dispatch header, plus `STACKS`, `REPOS` and `CHANGED_FILES`.
 
 ## Commands
 
+First apply "Repo preconditions" from `<PLUGIN_ROOT>/resources/vault-conventions.md` to every repo with changed files (local changes within `CHANGED_FILES` are expected).
+
 Run only the stacks that have changed files, in this order: kmp, android, ios, backend, web. Report each one separately.
 
 | Stack | Command |

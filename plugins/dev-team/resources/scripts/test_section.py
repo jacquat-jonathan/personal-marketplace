@@ -58,6 +58,14 @@ class SectionTest(unittest.TestCase):
         out = run(str(self.file), "scope", "goal").stdout
         self.assertLess(out.index("## scope"), out.index("## goal"))
 
+    def test_svg_is_summarised_not_dumped(self):
+        html = '<section id="flows"><h2>Flows</h2><svg viewBox="0 0 10 10"><title>Call flow</title><text x="1">checkout</text><rect/></svg><p>after</p></section>'
+        self.file.write_text(html, encoding="utf-8")
+        out = run(str(self.file), "flows").stdout
+        self.assertIn("[diagram: Call flow]", out)
+        self.assertNotIn("checkout", out)
+        self.assertIn("after", out)
+
     def test_missing_id_exits_3_and_still_prints_found(self):
         result = run(str(self.file), "goal", "nope")
         self.assertEqual(result.returncode, 3)

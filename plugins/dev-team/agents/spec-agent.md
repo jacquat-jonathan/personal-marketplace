@@ -18,7 +18,7 @@ The dispatch header, plus `TEMPLATE`, `STACKS`, `REPOS`, `REVISION`.
 2. If `spec.html` doesn't exist: copy `TEMPLATE` to `<TASK_DIR>/spec.html` and replace `{{TITLE}}` (goal.md title), `{{TYPE}}` and `{{DATE}}`. If it exists (a revision), edit it in place and apply only `REVISION`.
 3. Fill every section of the template:
    - `#goal`: the goal from goal.md, then one sentence on who benefits.
-   - `#context`: why now, the current behaviour, and links to companion notes.
+   - `#context`: why now, the current behaviour, and links to companion notes. When the task touches more than one component, add a box-and-arrow diagram of them, following `<PLUGIN_ROOT>/resources/visual-guide.md` (from the interview only; don't read code).
    - `#scope`: two lists, "In scope" and "Out of scope".
    - `#acceptance-criteria` (implement/ktlo): `<ol>` of `<li id="ac-N">`, each observable and testable ("Given … when … then …" or one clear sentence). No implementation details.
    - `#edge-cases`: `<ul>` of real cases from the interview (errors, empty states, offline, permissions, concurrency).

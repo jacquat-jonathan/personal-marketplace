@@ -105,5 +105,21 @@ must resources/vault-conventions.md 'Reject an argument that contains `..` or st
 must agents/cleaner-agent.md 'os.path.realpath'
 must agents/cleaner-agent.md 'already exists → BLOCKED'
 
+[ -f "$P/resources/visual-guide.md" ] || fail "missing resource visual-guide.md"
+must resources/vault-conventions.md '## Repo preconditions'
+must resources/vault-conventions.md 'REPO_OVERRIDE'
+must resources/shared-implementation-process.md '"Repo preconditions"'
+must agents/analyst-agent.md '"Repo preconditions"'
+must agents/writer-agent.md '"Repo preconditions"'
+must agents/qa-agent.md '"Repo preconditions"'
+must agents/spec-review-agent.md '"Repo preconditions"'
+must skills/execute/SKILL.md 'REPO_OVERRIDE'
+must skills/review/SKILL.md 'REPO_OVERRIDE'
+must agents/analyst-agent.md 'visual-guide.md'
+must agents/writer-agent.md 'visual-guide.md'
+must agents/spec-agent.md 'visual-guide.md'
+must agents/docs-agent.md 'Hard rules'
+must agents/docs-agent.md 'Before you hand back'
+
 [ "$FAILS" -eq 0 ] && echo "OK: dev-team plugin checks passed"
 exit $(( FAILS > 0 ))

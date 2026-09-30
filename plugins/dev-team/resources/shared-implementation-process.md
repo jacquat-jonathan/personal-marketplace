@@ -4,6 +4,7 @@ Read by `kmp-agent`, `ios-agent`, `android-agent`, `backend-agent` and `web-agen
 
 ## Step 0: context, cheaply
 
+0. Apply "Repo preconditions" from vault-conventions to every repo you'll touch. Nothing else happens until they pass.
 1. Read `<PLUGIN_ROOT>/resources/vault-conventions.md`, sections "Handback" and "HTML files".
 2. Read the spec sections you need, and nothing else:
    `python3 <PLUGIN_ROOT>/resources/scripts/section.py <TASK_DIR>/spec.html goal scope acceptance-criteria edge-cases dependencies plan-<your stack>`

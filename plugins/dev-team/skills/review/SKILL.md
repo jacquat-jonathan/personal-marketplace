@@ -17,4 +17,5 @@ disable-model-invocation: true
 3. implement / ktlo only: dispatch `dev-team:qa-agent` (model `sonnet`) with the dispatch header, `STACKS`, `REPOS` and `CHANGED_FILES`. Log it.
    - FAIL (product defect) → leave the status unchanged, show the failures, and say the next step is `/dev-team:execute <slug>`. Stop.
    - BLOCKED (environment) → show what the user needs to fix, and stop.
+Any handback with `REPO_ISSUES` → follow "Repo preconditions" in vault-conventions (ask the user; retry, `REPO_OVERRIDE`, or stop).
 4. Everything PASS → `frontmatter.py set … status reviewed`. Say the next step is `/dev-team:document <slug>`.

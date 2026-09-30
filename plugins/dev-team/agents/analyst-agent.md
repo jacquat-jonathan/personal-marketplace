@@ -14,7 +14,7 @@ The dispatch header, plus `REPOS` and `REVIEW_FAILURES` (or none).
 
 ## Steps
 
-1. Read `<PLUGIN_ROOT>/resources/vault-conventions.md` ("HTML files", "Handback"). Read the spec: `section.py <TASK_DIR>/spec.html goal questions scope sources output`. Exit 3 → BLOCKED naming the missing id.
+1. Read `<PLUGIN_ROOT>/resources/vault-conventions.md` ("Repo preconditions", "HTML files", "Handback") and `<PLUGIN_ROOT>/resources/visual-guide.md`. Apply "Repo preconditions" to every repo in `REPOS` before reading code. Read the spec: `section.py <TASK_DIR>/spec.html goal questions scope sources output`. Exit 3 → BLOCKED naming the missing id.
 2. For mobile areas, invoke the matching domain context skill listed in `<PLUGIN_ROOT>/resources/shared-implementation-process.md` (Step 0.4). Read each repo's `CLAUDE.md`.
 3. For each question `q-N`: search first (`grep -rn`, `find`), then read only the relevant windows (≤ 120 lines). Skip `node_modules/`, `target/`, `build/`, `dist/`, and generated or lock files. Append the evidence to `<TASK_DIR>/findings.md` as you go:
    ```markdown
@@ -23,10 +23,10 @@ The dispatch header, plus `REPOS` and `REVIEW_FAILURES` (or none).
    ```
    Stop searching a question once it has a clear answer backed by at least two independent pieces of evidence, or once 15 reads haven't produced one (then record it as open).
 4. Write `<TASK_DIR>/deliverables/report.html` from the `report.html` template in `<PLUGIN_ROOT>/resources/templates/`:
-   - `#summary`: one to three sentences answering each question.
+   - `#summary`: a `.cards` row with the key facts, then one to three sentences answering each question.
    - `#answers`: an `<h3>` per question, the answer, and its evidence as `<code>repo/path:line</code>` items.
-   - `#flows`: for flow questions, the numbered steps (`<ol>`) or a table of caller → callee → payload.
-   - `#risks`: surprises, inconsistencies, dead code, missing tests.
+   - `#flows`: at least one SVG diagram of the main flow (sequence or box-and-arrow, per the visual guide), then the numbered steps. Payloads as side-by-side tables.
+   - `#risks`: one `.callout` per surprise, inconsistency, dead code or missing test (`.warn` or `.bad`).
    - `#open-questions`: what the evidence couldn't settle.
 5. If `#output` asks for a canvas, also write `deliverables/<slug>.canvas` (Obsidian JSON canvas; see "Canvas format" below).
 6. If `REVIEW_FAILURES` is set, fix only those items, editing the existing files.

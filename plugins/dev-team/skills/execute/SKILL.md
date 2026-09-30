@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 `frontmatter.py get` for `type`, `tier`, `complexity`, `stacks`, `repos`. If `stacks` is empty for implement/ktlo, stop: say no stacks are set and the user should rerun `/dev-team:spec <slug>` or set them. Dispatch nothing.
 
-If the status is `executed`: if `review.html` doesn't exist, or the latest verdicts in `review.html` and `qa.html` are PASS, say the task is ready for `/dev-team:review` and stop. If the review PASS but QA not PASS (`qa.html` missing, or its verdict is BLOCKED), say `/dev-team:review <slug>` should run again once the environment is fixed, and stop. Otherwise this is a fix run: read `section.py <TASK_DIR>/review.html verdict` (and `qa.html verdict` if it exists) and set `REVIEW_FAILURES` to the listed blockers.
+If the status is `executed`: if `review.html` doesn't exist, or the latest verdicts in `review.html` and `qa.html` are PASS, say the task is ready for `/dev-team:review` and stop. If the review PASS but QA not PASS (`qa.html` missing, or its verdict is BLOCKED), say `/dev-team:review <slug>` should run again once the environment is fixed, and stop. Otherwise this is a fix run: read `section.py <TASK_DIR>/review.html verdict` (and `qa.html verdict` if it exists) and set `REVIEW_FAILURES` to the listed blockers, and pass `CHANGED_FILES` (the union of files in `changes.md`) so agents accept their own earlier changes.
 
 ## 2. Choose the model
 
@@ -31,6 +31,8 @@ Each dispatch prompt has the dispatch header, then `REPOS`, `REVIEW_FAILURES`, a
   2. Dispatch every other stack's agent in one message so they run in parallel, with one exception: If `kmp` is in `stacks`, run ios-agent and android-agent one after the other (android first), because both rebuild the shared library in `~/migrosonline/migrosapp`; backend and web still run alongside them. Agents: `ios` → `dev-team:ios-agent`, `android` → `dev-team:android-agent`, `backend` → `dev-team:backend-agent` (REPOS without `migrosapp` and `website-js`), `web` → `dev-team:web-agent`. Pass `SHARED_KMP_FILES` to ios and android.
 - **analyze** → `dev-team:analyst-agent`.
 - **document** → `dev-team:writer-agent`.
+
+Handback with `REPO_ISSUES` → follow "Repo preconditions" in vault-conventions (ask the user; retry, `REPO_OVERRIDE`, or stop).
 
 ## 4. Record
 

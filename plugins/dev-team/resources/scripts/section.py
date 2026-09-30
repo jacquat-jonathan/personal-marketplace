@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Print the text of HTML elements by id, so agents can read only the sections they need."""
+"""Print the text of HTML elements by id, so agents can read only the sections they need.
+
+Inline SVG diagrams are summarised as one "[diagram: <title>]" line.
+"""
 import sys
 from html.parser import HTMLParser
 
@@ -14,6 +17,9 @@ class SectionParser(HTMLParser):
         self.wanted = set(wanted)
         self.found = {}
         self.depth = {}
+        self.svg_depth = 0
+        self.svg_title = []
+        self.in_svg_title = False
 
     def handle_starttag(self, tag, attrs):
         if tag in VOID:
@@ -22,6 +28,10 @@ class SectionParser(HTMLParser):
             return
         for key in self.depth:
             self.depth[key] += 1
+        if tag == "svg" or self.svg_depth:
+            self.svg_depth += 1
+            self.in_svg_title = tag == "title" and not self.svg_title
+            return
         element_id = dict(attrs).get("id")
         if element_id in self.wanted and element_id not in self.found:
             self.found[element_id] = []
@@ -36,14 +46,30 @@ class SectionParser(HTMLParser):
     def handle_endtag(self, tag):
         if tag in VOID:
             return
+        if self.svg_depth:
+            self.svg_depth -= 1
+            self.in_svg_title = False
+            if self.svg_depth == 0:
+                title = " ".join("".join(self.svg_title).split()) or "untitled"
+                self._emit(f"\n[diagram: {title}]\n")
+                self.svg_title = []
+            self._close()
+            return
         if tag in BLOCK:
             self._emit("\n")
+        self._close()
+
+    def _close(self):
         for key in list(self.depth):
             self.depth[key] -= 1
             if self.depth[key] == 0:
                 del self.depth[key]
 
     def handle_data(self, data):
+        if self.svg_depth:
+            if self.in_svg_title:
+                self.svg_title.append(data)
+            return
         self._emit(data)
 
     def _emit(self, text):
