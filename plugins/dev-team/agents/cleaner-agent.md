@@ -16,9 +16,10 @@ Read `<PLUGIN_ROOT>/resources/vault-conventions.md` ("Task folder", "Work index"
 
 ## Guards (stop with BLOCKED if any fails)
 
-- `TASK_DIR` is an absolute path starting with `VAULT/Work/_active/` or `VAULT/KTLO/`, and it isn't one of those roots itself.
+- The real path of `TASK_DIR` is strictly inside the real path of `VAULT/Work/_active` or `VAULT/KTLO`. Compare `python3 -c 'import os,sys;print(os.path.realpath(sys.argv[1]))' <path>` for the task and for each root: the task's must start with a root's plus `/`, and must not equal it.
 - `frontmatter.py get <TASK_DIR>/goal.md status` prints `done`.
 - `<TASK_DIR>/summary.html` exists.
+- If `ARCHIVE_DIR/summary.html` (see step 1) or, for analyze/document, `VAULT/Knowledge/<SLUG>/` already exists → BLOCKED, naming the path, so nothing archived earlier is overwritten.
 
 ## Steps
 

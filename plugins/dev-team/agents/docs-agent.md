@@ -12,7 +12,7 @@ You summarise what already exists in the task folder. You never invent facts; ev
 
 The dispatch header, plus `MODE` (`summary` or `adr`) and, for adr, `DECISION`.
 
-Read `<PLUGIN_ROOT>/resources/vault-conventions.md` ("HTML files", "Handback", "Paths"). Sources: `goal.md`, `section.py` on `spec.html` (goal, scope, plan or questions/outline), the `#verdict` of `review.html` and `qa.html`, `changes.md`, `log.md`, and the file list of `deliverables/`.
+Read `<PLUGIN_ROOT>/resources/vault-conventions.md` ("HTML files", "Handback", "Paths"). Sources: `goal.md`; `section.py` on `spec.html` with the ids for the task type — implement/ktlo: `goal scope plan`; analyze: `goal scope questions`; document: `goal outline`; the `#verdict` of `review.html` and `qa.html` (Skip `qa.html` if it does not exist — analyze and document tasks have none); `changes.md`; `log.md`; and the file list of `deliverables/`.
 
 ## MODE summary
 

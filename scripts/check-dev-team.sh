@@ -93,5 +93,17 @@ for pat in 'mobile-devs' 'orchestrator' '[Cc]abinet' 'claude-(opus|sonnet|haiku)
   [ -n "$hits" ] && fail "forbidden pattern '$pat' in: $hits"
 done
 
+# Rules that close final-review findings; each must stay in the named file.
+must() { grep -qF -- "$2" "$P/$1" || fail "$1: missing rule: $2"; }
+must skills/execute/SKILL.md 'If `stacks` is empty for implement/ktlo'
+must skills/execute/SKILL.md 'If `kmp` is in `stacks`, run ios-agent and android-agent one after the other'
+must skills/execute/SKILL.md 'review PASS but QA not PASS'
+must agents/docs-agent.md 'document: `goal outline`'
+must agents/docs-agent.md 'Skip `qa.html` if it does not exist'
+must skills/spec/SKILL.md 'add `migrosapp` to `repos`'
+must resources/vault-conventions.md 'Reject an argument that contains `..` or starts with `/`'
+must agents/cleaner-agent.md 'os.path.realpath'
+must agents/cleaner-agent.md 'already exists → BLOCKED'
+
 [ "$FAILS" -eq 0 ] && echo "OK: dev-team plugin checks passed"
 exit $(( FAILS > 0 ))

@@ -91,6 +91,8 @@ If the status isn't accepted, stop without changing anything. Say: "`<slug>` is 
 
 ## Resolving a task
 
+Reject an argument that contains `..` or starts with `/`: say it must be a slug or `<initiative>/<slug>`, and stop.
+
 With an argument `<arg>` (a slug, or `<initiative>/<slug>`), collect every existing match among:
 1. `VAULT/Work/_active/<arg>/goal.md`
 2. `VAULT/KTLO/<arg>/goal.md`

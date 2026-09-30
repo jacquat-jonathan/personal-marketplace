@@ -66,6 +66,15 @@ class FrontmatterTest(unittest.TestCase):
         run("set", str(self.file), "repos", "[checkout, website-js]")
         self.assertEqual(run("get", str(self.file), "repos").stdout, "[checkout, website-js]\n")
 
+    def test_get_block_list_returns_flow_list(self):
+        self.file.write_text(GOAL.replace("stacks: [ios, android]", "stacks:\n  - ios\n  - android"), encoding="utf-8")
+        self.assertEqual(run("get", str(self.file), "stacks").stdout, "[ios, android]\n")
+
+    def test_set_replaces_block_list_without_orphans(self):
+        self.file.write_text(GOAL.replace("stacks: [ios, android]", "stacks:\n  - ios\n  - android"), encoding="utf-8")
+        run("set", str(self.file), "stacks", "[kmp]")
+        self.assertEqual(self.file.read_text(encoding="utf-8"), GOAL.replace("stacks: [ios, android]", "stacks: [kmp]"))
+
     def test_no_frontmatter_exits_5(self):
         self.file.write_text("# Just a note\n", encoding="utf-8")
         self.assertEqual(run("get", str(self.file), "status").returncode, 5)

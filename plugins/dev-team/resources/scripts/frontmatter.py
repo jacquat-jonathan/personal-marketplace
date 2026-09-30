@@ -22,26 +22,46 @@ def key_pattern(key):
     return re.compile(rf"^{re.escape(key)}:(.*)$")
 
 
-def get(text, key):
-    lines, _ = split(text)
+BLOCK_ITEM = re.compile(r"^\s+-\s*(.*)$")
+
+
+def find(lines, key):
     pattern = key_pattern(key)
-    for line in lines:
+    for index, line in enumerate(lines):
         match = pattern.match(line)
         if match:
-            return re.split(r"\s+#", match.group(1), maxsplit=1)[0].strip()
+            end = index + 1
+            while end < len(lines) and BLOCK_ITEM.match(lines[end]):
+                end += 1
+            return index, end, match.group(1)
     return None
+
+
+def strip_comment(value):
+    return re.split(r"\s+#", value, maxsplit=1)[0].strip()
+
+
+def get(text, key):
+    lines, _ = split(text)
+    found = find(lines, key)
+    if found is None:
+        return None
+    index, end, value = found
+    if end > index + 1:
+        items = [strip_comment(BLOCK_ITEM.match(line).group(1)) for line in lines[index + 1:end]]
+        return "[" + ", ".join(items) + "]"
+    return strip_comment(value)
 
 
 def set_value(text, key, value):
     lines, rest = split(text)
-    pattern = key_pattern(key)
     new_line = f"{key}: {value}"
-    for index, line in enumerate(lines):
-        if pattern.match(line):
-            lines[index] = new_line
-            break
-    else:
+    found = find(lines, key)
+    if found is None:
         lines.append(new_line)
+    else:
+        index, end, _ = found
+        lines[index:end] = [new_line]
     return "---\n" + "\n".join(lines) + rest
 
 

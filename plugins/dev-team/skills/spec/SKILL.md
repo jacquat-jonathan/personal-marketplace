@@ -33,7 +33,7 @@ Save the answers to `<TASK_DIR>/interview.md`, as a heading per topic with the u
 
 ## 4. Classify
 
-Pick a tier with a one-sentence reason: **spike** (feasibility question), **bounded** (well-scoped change to an existing flow), **architectural** (new subsystem, cross-stack, or an interface others depend on). Tell the user; they may override. Set `complexity: high` only if the user said it's unusually complex, or the tier is architectural and spans 3+ stacks. Write `stacks`, `repos`, `tier` and `complexity` with `frontmatter.py set` (lists as `[a, b]`).
+Pick a tier with a one-sentence reason: **spike** (feasibility question), **bounded** (well-scoped change to an existing flow), **architectural** (new subsystem, cross-stack, or an interface others depend on). Tell the user; they may override. Set `complexity: high` only if the user said it's unusually complex, or the tier is architectural and spans 3+ stacks. Before writing, add `migrosapp` to `repos` when any of ios, android or kmp is in `stacks`, and `website-js` when web is. Write `stacks`, `repos`, `tier` and `complexity` with `frontmatter.py set` (lists as `[a, b]`).
 
 ## 5. Dispatch spec-agent
 
