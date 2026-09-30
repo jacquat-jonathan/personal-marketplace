@@ -1,0 +1,8 @@
+{
+    "name": "dev-team",
+    "description": "A cost-conscious dev team: ideate, spec, execute, review, document and archive tasks across iOS, Android, KMP, Java backend and Angular, written into the Obsidian vault",
+    "version": "3.0.0",
+    "author": {
+        "name": "Jacquat Jonathan"
+    }
+}

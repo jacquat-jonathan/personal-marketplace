@@ -1,13 +1,13 @@
 {
-    "name": "personal-plugins",
+    "name": "personal-marketplace",
     "owner": {
         "name": "Jacquat Jonathan"
     },
     "plugins": [
         {
-            "name": "mobile-devs",
-            "source": "./plugins/mobile-devs",
-            "description": "Gives you a team of mobile devs from orchastrator to reviewer to reporter"
+            "name": "dev-team",
+            "source": "./plugins/dev-team",
+            "description": "A cost-conscious dev team: ideate, spec, execute, review, document and archive tasks across iOS, Android, KMP, Java backend and Angular, written into the Obsidian vault"
         }
     ]
 }
