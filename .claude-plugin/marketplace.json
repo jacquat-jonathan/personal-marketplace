@@ -5,11 +5,6 @@
     },
     "plugins": [
         {
-            "name": "marcalex",
-            "source": "./plugins/marcalex",
-            "description": "Adds a /marcalex skill to find who's the best"
-        },
-        {
             "name": "mobile-devs",
             "source": "./plugins/mobile-devs",
             "description": "Gives you a team of mobile devs from orchastrator to reviewer to reporter"
